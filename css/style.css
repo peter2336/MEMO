@@ -1,0 +1,75 @@
+body {
+  background-color: #313131;
+}
+
+#memoBox {
+  background-image: url("../images/Notes-bro.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+  opacity: 60%;
+}
+
+input[readonly] {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-clip: padding-box;
+  background-color: #313131;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.375rem;
+  pointer-events: none;
+}
+
+input:not([readonly]) {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-clip: padding-box;
+  background-color: #212121;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.375rem;
+  pointer-events: auto;
+  transition: all 0.3s;
+}
+
+input:focus {
+  transition: all 0.3s;
+  outline: none;
+  background-color: #212121;
+}
+
+#deleteBtn,
+#editBtn,
+#dragBtn {
+  height: 36px;
+  width: 36px;
+}
+
+#deleteBtn:hover,
+#editBtn:hover {
+  cursor: pointer;
+}
+
+#dragBtn:hover {
+  cursor: grab;
+}
+
+#deleteBtn:hover i,
+#editBtn:hover i,
+#dragBtn:hover i {
+  color: #d1d1d1 !important;
+  transition: all 0.3s;
+}
