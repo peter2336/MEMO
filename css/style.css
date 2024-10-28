@@ -89,3 +89,13 @@ input:focus {
   background-color: #d1d1d1;
   opacity: 0.2;
 }
+
+.accordion {
+  --bs-accordion-bg: #484848;
+  --bs-accordion-active-bg: #616161;
+  --bs-accordion-border-color: #484848;
+  --bs-accordion-color: #ffffff;
+  --bs-accordion-active-color: #ffffff;
+  --bs-accordion-btn-focus-box-shadow: #484848;
+  --accordion-btn-icon-color: #ffffff;
+}
