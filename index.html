@@ -18,25 +18,29 @@
     <title>memo</title>
   </head>
   <body>
-    <header>
-      <h1 class="text-white text-center m-3">memo</h1>
-    </header>
+    <div id="navbar"></div>
 
-    <nav class="navbar">
-      <div class="container d-flex justify-content-center">
-        <button onclick="addMemo()" type="button" class="btn btn-secondary">
-          <i class="bi bi-pencil-square"></i>
-          新增memo
-        </button>
-      </div>
-    </nav>
+    <script>
+      fetch("navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar").innerHTML = data;
+        });
+    </script>
 
-    <main class="container-fluid px-5 my-3">
+    <main>
       <div
-        class="container rounded p-3 align-items-center"
-        style="min-height: 500px; max-width: 800px; background-color: #414141"
-        id="memoBox"
-      ></div>
+        class="py-5 container d-md-flex justify-content-center align-items-center"
+      >
+        <div class="col-md-4">
+          <h1 class="text-light">隨時隨地筆記。</h1>
+          <h2 class="text-light">memo協助您輕鬆紀錄事務。</h2>
+          <a href="./memo.html" class="btn btn-secondary">開始使用memo！</a>
+        </div>
+        <div class="col-md-8">
+          <img class="img-fluid" src="./images/Bullet journal.gif" alt="" />
+        </div>
+      </div>
     </main>
 
     <footer>
