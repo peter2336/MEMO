@@ -1,11 +1,18 @@
-let idCounter = 0;
-
 function addMemo(memoId, memoContent) {
-  idCounter++;
-
   //outer container
   const memo = document.createElement("div");
-  memo.id = memoId ? memoId : `memo-${idCounter}`;
+  const memoTable = JSON.parse(localStorage.getItem("memos")) || [];
+
+  if (memoId) {
+    memo.id = memoId;
+  } else if (memoTable.length !== 0) {
+    console.log(memoTable.length);
+    memo.id = `memo-${
+      parseInt(memoTable[memoTable.length - 1].id.match(/\d+/g)) + 1
+    }`;
+  } else {
+    memo.id = "memo-1";
+  }
 
   //input
   let myInput = document.createElement("input");
@@ -143,11 +150,11 @@ function addMemo(memoId, memoContent) {
   memoBox.appendChild(memo);
 
   if (!memoId && !memoContent) {
-    let memoTable = JSON.parse(localStorage.getItem("memos")) || [];
+    console.log(memoTable.length);
     const newMemo = {
-      id: `memo-${idCounter}`,
+      id: memo.id,
       content: "",
-      index: idCounter,
+      index: parseInt(memo.id.match(/\d+/g)),
     };
     memoTable.push(newMemo);
 
