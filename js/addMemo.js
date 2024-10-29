@@ -6,7 +6,6 @@ function addMemo(memoId, memoContent) {
   if (memoId) {
     memo.id = memoId;
   } else if (memoTable.length !== 0) {
-    console.log(memoTable.length);
     memo.id = `memo-${
       parseInt(memoTable[memoTable.length - 1].id.match(/\d+/g)) + 1
     }`;
@@ -150,7 +149,6 @@ function addMemo(memoId, memoContent) {
   memoBox.appendChild(memo);
 
   if (!memoId && !memoContent) {
-    console.log(memoTable.length);
     const newMemo = {
       id: memo.id,
       content: "",
