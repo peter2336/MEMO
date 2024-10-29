@@ -28,11 +28,22 @@
         });
     </script>
 
-    <div class="container d-flex justify-content-center">
+    <div
+      style="max-width: 800px"
+      class="container-fluid d-flex justify-content-between"
+    >
       <button onclick="addMemo()" type="button" class="btn btn-secondary">
         <i class="bi bi-pencil-square"></i>
         新增memo
       </button>
+
+      <input
+        id="searchInput"
+        style="width: 200px"
+        class="text-light"
+        type="text"
+        placeholder="🔎︎ 搜尋"
+      />
     </div>
 
     <main class="container-fluid px-5 my-3">
