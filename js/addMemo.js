@@ -5,7 +5,7 @@ function addMemo(memoId, memoContent) {
 
   //outer container
   const memo = document.createElement("div");
-  memo.id = `memo-${idCounter}` || memoId;
+  memo.id = memoId ? memoId : `memo-${idCounter}`;
 
   //input
   let myInput = document.createElement("input");
