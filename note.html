@@ -58,18 +58,15 @@
       </div>
     </main>
 
-    <footer>
-      <div
-        class="position-fixed bottom-0 bg-dark container-fluid d-flex justify-content-center"
-      >
-        <a
-          target="_blank"
-          class="text-decoration-none text-light"
-          href="https://storyset.com/work"
-          >Work illustrations by Storyset</a
-        >
-      </div>
-    </footer>
+    <div id="footer"></div>
+
+    <script>
+      fetch("footer.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("footer").innerHTML = data;
+        });
+    </script>
 
     <script src="./js/addNote.js" defer></script>
     <script
