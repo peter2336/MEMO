@@ -1,9 +1,8 @@
 import { addMemo } from "./addMemo.js";
 
 function loadMemo() {
-  const memos = JSON.parse(localStorage.getItem("memos"));
-  const memoBox = document.getElementById("memoBox");
-  memos?.forEach((memoData) => {
+  const memoTable = JSON.parse(localStorage.getItem("memos"));
+  memoTable?.forEach((memoData) => {
     addMemo(memoData.id, memoData.content);
   });
 }
