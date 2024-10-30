@@ -28,17 +28,24 @@
         });
     </script>
 
-    <div
-      style="max-width: 800px"
-      class="container-fluid d-flex justify-content-between"
-    >
-      <button id="addNoteBtn" type="button" class="btn btn-secondary">
-        <i class="bi bi-pencil-square"></i>
-        新增note
-      </button>
-    </div>
-
     <main class="container-fluid px-5 my-3">
+      <div
+        style="max-width: 800px"
+        class="container-fluid d-flex justify-content-between align-items-center"
+      >
+        <button id="addNoteBtn" type="button" class="btn btn-secondary">
+          <i class="bi bi-pencil-square"></i>
+          新增note
+        </button>
+
+        <input
+          id="searchInput"
+          style="width: 200px"
+          class="text-light my-2"
+          type="text"
+          placeholder="🔎︎ 搜尋"
+        />
+      </div>
       <div
         class="container rounded p-3 align-items-center"
         style="min-height: 500px; max-width: 800px; background-color: #212121"
@@ -57,6 +64,7 @@
     </script>
 
     <script type="module" src="./js/addNote.js" defer></script>
+    <script type="module" src="./js/search.js"></script>
     <script type="module" src="./js/loadNote.js" defer></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
