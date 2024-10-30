@@ -6,9 +6,7 @@ function addMemo(memoId, memoContent) {
   if (memoId) {
     memo.id = memoId;
   } else if (memoTable.length !== 0) {
-    memo.id = `memo-${
-      parseInt(memoTable[memoTable.length - 1].id.match(/\d+/g)) + 1
-    }`;
+    memo.id = `memo-${parseInt(memoTable[memoTable.length - 1].index) + 1}`;
   } else {
     memo.id = "memo-1";
   }
@@ -129,6 +127,21 @@ function addMemo(memoId, memoContent) {
     } else {
       target.parentNode.insertBefore(dropped, target.nextSibling);
     }
+
+    const memoTable = JSON.parse(localStorage.getItem("memos"));
+    const memoChilds = Array.from(memoBox.children);
+
+    memoChilds.forEach((memo, newIndex) => {
+      const newIndexMemo = memoTable.find((memoData) => memoData.id == memo.id);
+
+      if (newIndexMemo) {
+        newIndexMemo.index = newIndex + 1;
+      }
+    });
+
+    memoTable.sort((a, b) => a.index - b.index);
+
+    localStorage.setItem("memos", JSON.stringify(memoTable));
   });
 
   memo.addEventListener("dragenter", (e) => {
