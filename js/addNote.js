@@ -40,7 +40,9 @@ function addNote(noteId, noteContent) {
       e.target.parentNode.nextElementSibling.querySelector("textarea").focus();
 
       const noteTable = JSON.parse(localStorage.getItem("notes"));
-      const noteChilds = Array.from(noteBox.children);
+      const noteChilds = Array.from(
+        e.target.querySelector("#noteBox").children
+      );
 
       noteChilds.forEach((note, newIndex) => {
         const newIndexNote = noteTable.find(
