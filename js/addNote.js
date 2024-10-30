@@ -94,6 +94,27 @@ function addNote(noteId, noteContent) {
     localStorage.setItem("notes", JSON.stringify(noteTable));
   });
 
+  //deleteBtn
+  let trashIcon = document.createElement("i");
+  trashIcon.setAttribute("class", "bi bi-trash-fill");
+
+  let deleteBtn = document.createElement("div");
+  deleteBtn.id = "deleteBtn";
+  deleteBtn.setAttribute(
+    "class",
+    "d-flex align-items-center justify-content-center bg-transparent"
+  );
+  deleteBtn.addEventListener("click", (e) => {
+    const noteTable = JSON.parse(localStorage.getItem("notes"));
+    const updatedNotes = noteTable.filter(
+      (noteData) => noteData.id !== e.target.closest("[id^='note']").id
+    );
+    localStorage.setItem("notes", JSON.stringify(updatedNotes));
+
+    note.remove();
+  });
+  deleteBtn.appendChild(trashIcon);
+
   //dragBtn
   let dragIcon = document.createElement("i");
   dragIcon.setAttribute("class", "bi bi-grip-vertical");
@@ -110,6 +131,7 @@ function addNote(noteId, noteContent) {
   note.setAttribute("class", "d-flex py-1");
   note.appendChild(dragBtn);
   note.appendChild(myInput);
+  note.appendChild(deleteBtn);
   dragBtn.setAttribute("draggable", true);
 
   //drag and drop
