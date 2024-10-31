@@ -139,16 +139,19 @@ function addNote(noteId, noteContent) {
     }
 
     if (e.key === "ArrowUp") {
-      e.target.parentNode.previousElementSibling
-        ?.querySelector("textarea")
-        .focus();
+      if (cursorPosition === 0 && previousInput) {
+        e.preventDefault();
+        previousInput.focus();
+        previousInput.selectionStart = previousInput.selectionEnd =
+          previousInput.value.length; // 將光標放在末尾
+      }
     }
 
     if (e.key === "ArrowDown") {
-      if (cursorPosition === currentValue.length) {
-        e.target.parentNode.nextElementSibling
-          ?.querySelector("textarea")
-          .focus();
+      if (cursorPosition === currentValue.length && nextInput) {
+        e.preventDefault();
+        nextInput.focus();
+        nextInput.selectionStart = nextInput.selectionEnd = 0; // 將光標放在開頭
       }
     }
     adjustHeight(e.target);
