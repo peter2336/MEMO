@@ -30,7 +30,7 @@ function addNote(noteId, noteContent) {
   //input
   const myInput = document.createElement("textarea");
   myInput.setAttribute("class", "text-light");
-  myInput.style.height = "36px";
+  myInput.style.minHeight = "36px";
   myInput.style.overflow = "hidden";
   myInput.style.resize = "none";
   myInput.style.boxSizing = "border-box";
@@ -51,13 +51,23 @@ function addNote(noteId, noteContent) {
   const adjustHeight = (element) => {
     hiddenDiv.style.width = `${element.clientWidth}px`;
     hiddenDiv.textContent = element.value || element.placeholder;
-    const newHeight = hiddenDiv.scrollHeight;
-    element.style.height = `${Math.max(36, newHeight)}px`;
+    const lineHeight = 24; // 假設每行的高度是24px
+    const numberOfLines = (element.value.match(/\n/g) || []).length + 1; // 獲取行數，+1 是為了計算最後一行
+
+    const newHeight = Math.max(
+      36,
+      12 + numberOfLines * lineHeight,
+      hiddenDiv.scrollHeight
+    );
+    element.style.height = `${newHeight}px`;
   };
 
   adjustHeight(myInput);
 
   myInput.addEventListener("keydown", (e) => {
+    const cursorPosition = myInput.selectionStart;
+    const currentValue = myInput.value;
+
     const previousInput =
       e.target.parentNode.previousElementSibling?.querySelector("textarea");
 
@@ -70,29 +80,50 @@ function addNote(noteId, noteContent) {
     if (e.key === "Enter") {
       e.preventDefault();
 
-      const newNote = addNote();
+      if (cursorPosition === currentValue.length) {
+        const newNote = addNote();
 
-      currentNote.parentNode.insertBefore(newNote, currentNote.nextSibling);
+        currentNote.parentNode.insertBefore(newNote, currentNote.nextSibling);
 
-      e.target.parentNode.nextElementSibling.querySelector("textarea").focus();
+        e.target.parentNode.nextElementSibling
+          .querySelector("textarea")
+          .focus();
 
-      const noteTable = JSON.parse(localStorage.getItem("notes"));
-      const noteChilds = Array.from(noteBox.children);
-      noteChilds.forEach((note, newIndex) => {
-        const newIndexNote = noteTable.find(
-          (noteData) => noteData.id == note.id
+        const noteTable = JSON.parse(localStorage.getItem("notes"));
+        const noteChilds = Array.from(noteBox.children);
+        noteChilds.forEach((note, newIndex) => {
+          const newIndexNote = noteTable.find(
+            (noteData) => noteData.id == note.id
+          );
+
+          if (newIndexNote) {
+            newIndexNote.index = newIndex + 1;
+          }
+        });
+
+        noteTable.sort((a, b) => a.index - b.index);
+        localStorage.setItem("notes", JSON.stringify(noteTable));
+      } else {
+        e.target.value =
+          currentValue.substring(0, cursorPosition) +
+          "\n" +
+          currentValue.substring(cursorPosition);
+        e.target.selectionStart = e.target.selectionEnd = cursorPosition + 1;
+
+        const noteTable = JSON.parse(localStorage.getItem("notes"));
+        const updatedNotes = noteTable.find(
+          (noteData) => noteData.id === e.target.closest("[id^='note']").id
         );
-
-        if (newIndexNote) {
-          newIndexNote.index = newIndex + 1;
+        if (updatedNotes) {
+          updatedNotes.content = e.target.value;
         }
-      });
-
-      noteTable.sort((a, b) => a.index - b.index);
-      localStorage.setItem("notes", JSON.stringify(noteTable));
+        localStorage.setItem("notes", JSON.stringify(noteTable));
+      }
+      adjustHeight(e.target);
     }
 
     if (e.key === "Backspace") {
+      adjustHeight(e.target);
       if (e.target.value === "") {
         e.preventDefault();
 
@@ -114,8 +145,13 @@ function addNote(noteId, noteContent) {
     }
 
     if (e.key === "ArrowDown") {
-      e.target.parentNode.nextElementSibling?.querySelector("textarea").focus();
+      if (cursorPosition === currentValue.length) {
+        e.target.parentNode.nextElementSibling
+          ?.querySelector("textarea")
+          .focus();
+      }
     }
+    adjustHeight(e.target);
   });
 
   myInput.addEventListener("input", (e) => {
