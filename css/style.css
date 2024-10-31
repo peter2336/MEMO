@@ -106,9 +106,14 @@ input:focus {
   transition: all 0.3s;
 }
 
-div[id^="note-"] #dragBtn,
+div[id^="note-"] #dragBtn {
+  width: 12px;
+  margin-left: 12px;
+}
+
 div[id^="note-"] #deleteBtn {
   width: 12px;
+  margin-right: 12px;
 }
 
 div[id^="note-"] i {
