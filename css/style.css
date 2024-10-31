@@ -11,6 +11,10 @@ body {
   padding-top: 60px;
 }
 
+section:not(:last-child) {
+  margin-bottom: 100px;
+}
+
 #memoBox {
   background-image: url("../images/Notes-bro.svg");
   background-repeat: no-repeat;
