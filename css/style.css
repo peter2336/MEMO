@@ -11,6 +11,10 @@ body {
   padding-top: 60px;
 }
 
+nav {
+  z-index: 1000;
+}
+
 section:not(:last-child) {
   margin-bottom: 100px;
 }
