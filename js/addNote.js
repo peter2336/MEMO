@@ -33,10 +33,29 @@ function addNote(noteId, noteContent) {
   myInput.style.height = "36px";
   myInput.style.overflow = "hidden";
   myInput.style.resize = "none";
+  myInput.style.boxSizing = "border-box";
   myInput.placeholder = "開始筆記吧";
   if (noteContent) {
     myInput.value = noteContent;
   }
+
+  const hiddenDiv = document.createElement("div");
+  hiddenDiv.id = "hiddenDiv";
+  hiddenDiv.style.visibility = "hidden";
+  hiddenDiv.style.position = "absolute";
+  hiddenDiv.style.whiteSpace = "pre-wrap";
+  hiddenDiv.style.overflowWrap = "anywhere";
+
+  note.appendChild(hiddenDiv);
+
+  const adjustHeight = (element) => {
+    hiddenDiv.style.width = `${element.clientWidth}px`;
+    hiddenDiv.textContent = element.value || element.placeholder;
+    const newHeight = hiddenDiv.scrollHeight;
+    element.style.height = `${Math.max(36, newHeight)}px`;
+  };
+
+  adjustHeight(myInput);
 
   myInput.addEventListener("keydown", (e) => {
     const previousInput =
@@ -100,7 +119,8 @@ function addNote(noteId, noteContent) {
   });
 
   myInput.addEventListener("input", (e) => {
-    e.preventDefault();
+    adjustHeight(e.target);
+
     const noteTable = JSON.parse(localStorage.getItem("notes"));
     const updatedNotes = noteTable.find(
       (noteData) => noteData.id === e.target.closest("[id^='note']").id
@@ -210,6 +230,16 @@ function addNote(noteId, noteContent) {
 
   const noteBox = document.getElementById("noteBox");
   noteBox.appendChild(note);
+
+  window.addEventListener("load", () => {
+    const allTextareas = document.querySelectorAll("textarea.text-light");
+    allTextareas.forEach((element) => {
+      hiddenDiv.style.width = `${element.clientWidth}px`;
+      hiddenDiv.textContent = element.value || element.placeholder;
+      const newHeight = hiddenDiv.scrollHeight;
+      element.style.height = `${Math.max(36, newHeight)}px`;
+    });
+  });
 
   return note;
 }
