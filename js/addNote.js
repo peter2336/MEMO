@@ -1,18 +1,34 @@
 function addNote(noteId, noteContent) {
   //outer container
-  let note = document.createElement("div");
+  const note = document.createElement("div");
   const noteTable = JSON.parse(localStorage.getItem("notes")) || [];
 
   if (noteId) {
-    note.id = noteId;
-  } else if (noteTable.length !== 0) {
-    note.id = `note-${parseInt(noteTable[noteTable.length - 1].index) + 1}`;
+    note.id = noteId; // 如果有提供 noteId，直接使用
   } else {
-    note.id = "note-1";
+    const noteTable = JSON.parse(localStorage.getItem("notes")) || [];
+    const newId =
+      noteTable.length > 0
+        ? Math.max(
+            ...noteTable.map((note) => parseInt(note.id.split("-")[1]))
+          ) + 1
+        : 1;
+    note.id = `note-${newId}`; // 使用新的唯一 ID
+  }
+
+  if (!noteId && !noteContent) {
+    const newNote = {
+      id: note.id,
+      content: "",
+      index: parseInt(note.id.match(/\d+/g)),
+    };
+    noteTable.push(newNote);
+
+    localStorage.setItem("notes", JSON.stringify(noteTable));
   }
 
   //input
-  let myInput = document.createElement("textarea");
+  const myInput = document.createElement("textarea");
   myInput.setAttribute("class", "text-light");
   myInput.style.height = "36px";
   myInput.style.overflow = "hidden";
@@ -34,16 +50,15 @@ function addNote(noteId, noteContent) {
 
     if (e.key === "Enter") {
       e.preventDefault();
-      let newNote = addNote();
+
+      const newNote = addNote();
+
       currentNote.parentNode.insertBefore(newNote, currentNote.nextSibling);
 
       e.target.parentNode.nextElementSibling.querySelector("textarea").focus();
 
       const noteTable = JSON.parse(localStorage.getItem("notes"));
-      const noteChilds = Array.from(
-        e.target.querySelector("#noteBox").children
-      );
-
+      const noteChilds = Array.from(noteBox.children);
       noteChilds.forEach((note, newIndex) => {
         const newIndexNote = noteTable.find(
           (noteData) => noteData.id == note.id
@@ -55,7 +70,6 @@ function addNote(noteId, noteContent) {
       });
 
       noteTable.sort((a, b) => a.index - b.index);
-
       localStorage.setItem("notes", JSON.stringify(noteTable));
     }
 
@@ -86,6 +100,7 @@ function addNote(noteId, noteContent) {
   });
 
   myInput.addEventListener("input", (e) => {
+    e.preventDefault();
     const noteTable = JSON.parse(localStorage.getItem("notes"));
     const updatedNotes = noteTable.find(
       (noteData) => noteData.id === e.target.closest("[id^='note']").id
@@ -97,10 +112,10 @@ function addNote(noteId, noteContent) {
   });
 
   //deleteBtn
-  let trashIcon = document.createElement("i");
+  const trashIcon = document.createElement("i");
   trashIcon.setAttribute("class", "bi bi-trash-fill");
 
-  let deleteBtn = document.createElement("div");
+  const deleteBtn = document.createElement("div");
   deleteBtn.id = "deleteBtn";
   deleteBtn.setAttribute(
     "class",
@@ -118,10 +133,10 @@ function addNote(noteId, noteContent) {
   deleteBtn.appendChild(trashIcon);
 
   //dragBtn
-  let dragIcon = document.createElement("i");
+  const dragIcon = document.createElement("i");
   dragIcon.setAttribute("class", "bi bi-grip-vertical");
 
-  let dragBtn = document.createElement("div");
+  const dragBtn = document.createElement("div");
   dragBtn.id = "dragBtn";
   dragBtn.setAttribute(
     "class",
@@ -139,7 +154,7 @@ function addNote(noteId, noteContent) {
   //drag and drop
   dragBtn.addEventListener("dragstart", (e) => {
     note.setAttribute("draggable", true);
-    let index = Array.prototype.indexOf.call(
+    const index = Array.prototype.indexOf.call(
       e.target.closest("#noteBox").children,
       e.target.closest("[id^='note']")
     );
@@ -149,10 +164,10 @@ function addNote(noteId, noteContent) {
   note.addEventListener("drop", (e) => {
     e.preventDefault();
     e.target.closest("[id^='note']").classList.remove("dropZone");
-    let oldIndex = e.dataTransfer.getData("text/plain");
-    let dropped = e.target.closest("#noteBox").children[oldIndex];
-    let target = e.target.closest("[id^='note']");
-    let newIndex = Array.prototype.indexOf.call(
+    const oldIndex = e.dataTransfer.getData("text/plain");
+    const dropped = e.target.closest("#noteBox").children[oldIndex];
+    const target = e.target.closest("[id^='note']");
+    const newIndex = Array.prototype.indexOf.call(
       e.target.closest("#noteBox").children,
       e.target.closest("[id^='note']")
     );
@@ -193,19 +208,8 @@ function addNote(noteId, noteContent) {
     e.preventDefault();
   });
 
-  let noteBox = document.getElementById("noteBox");
+  const noteBox = document.getElementById("noteBox");
   noteBox.appendChild(note);
-
-  if (!noteId && !noteContent) {
-    const newNote = {
-      id: note.id,
-      content: "",
-      index: parseInt(note.id.match(/\d+/g)),
-    };
-    noteTable.push(newNote);
-
-    localStorage.setItem("notes", JSON.stringify(noteTable));
-  }
 
   return note;
 }
