@@ -95,6 +95,20 @@ input:focus {
   transition: all 0.3s;
 }
 
+div[id^="note-"] #dragBtn,
+div[id^="note-"] #deleteBtn {
+  width: 12px;
+}
+
+div[id^="note-"] i {
+  color: #212121;
+}
+
+div[id^="note-"]:hover i {
+  color: #616161;
+  transition: all 0.3s;
+}
+
 .dropZone {
   position: relative;
 }
