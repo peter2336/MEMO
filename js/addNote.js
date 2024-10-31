@@ -280,6 +280,16 @@ function addNote(noteId, noteContent) {
     });
   });
 
+  window.addEventListener("resize", () => {
+    const allTextareas = document.querySelectorAll("textarea.text-light");
+    allTextareas.forEach((element) => {
+      hiddenDiv.style.width = `${element.clientWidth}px`;
+      hiddenDiv.textContent = element.value || element.placeholder;
+      const newHeight = hiddenDiv.scrollHeight;
+      element.style.height = `${Math.max(36, newHeight)}px`;
+    });
+  });
+
   return note;
 }
 
